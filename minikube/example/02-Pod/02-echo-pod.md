@@ -1,4 +1,18 @@
-## 02-echo-pod
+## echo pod YAML 파일 작성
+
+> $ vi 02-echo-pod.yml
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: echo
+  labels:
+    app: echo
+spec:
+  containers:
+    - name: app
+      image: ghcr.io/subicura/echo:v1
+```
 
 ### Pod 생성
 

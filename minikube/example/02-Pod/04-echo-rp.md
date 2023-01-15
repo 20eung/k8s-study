@@ -1,18 +1,18 @@
-## libenessProbe YAML 파일 작성
+## ReadinessProbe YAML 파일 작성
 
-> $ vi 03-echo-lp.yml
+> $ vi 6-echo-rp.yml
 ```
 apiVersion: v1
 kind: Pod
 metadata:
-  name: echo-lp
+  name: echo-rp
   labels:
     app: echo
 spec:
   containers:
     - name: app
       image: ghcr.io/subicura/echo:v1
-      livenessProbe:
+      readinessProbe:
         httpGet:
           path: /not/exist
           port: 8080
@@ -24,38 +24,30 @@ spec:
 
 ## Pod 생성
 
-> $ kubectl apply -f 4-echo-lp.yml
+> $ kubectl apply -f 6-echo-rp.yml
 ```
-pod/echo-lp created
+pod/echo-rp created
 ```
 
 ## Pod 상태 확인
 
-> $ kubectl get pod/echo-lp
+> $ kubectl get pod
 ```
 NAME      READY   STATUS    RESTARTS     AGE
-echo-lp   1/1     Running   1 (8s ago)   18s
+echo-rp   0/1     Running   0          8s
 ```
 
 ## Pod 상태 확인
 
-> $ kubectl get pod/echo-lp
+> $ kubectl get pod/echo-rp
 ```
 NAME      READY   STATUS    RESTARTS     AGE
-echo-lp   1/1     Running   3 (2s ago)   32s
-```
-
-## Pod 상태 확인
-
-> $ kubectl get pod/echo-lp
-```
-NAME      READY   STATUS             RESTARTS     AGE
-echo-lp   0/1     CrashLoopBackOff   3 (7s ago)   47s
+echo-rp   0/1     Running   0          14s
 ```
 
 ## Pod 제거
 
-> $ kubectl delete -f 4-echo-lp.yml
+> $ kubectl delete -f 6-echo-rp.yml
 ```
-pod "echo-lp" deleted
+pod "echo-rp" deleted
 ```
