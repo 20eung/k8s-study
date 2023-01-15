@@ -1,3 +1,8 @@
+## 쿠버네티스 안내서
+
+> 서비큐라님 k8s 스터디 웹사이트: https://subicura.com/k8s
+
+
 ## minikube
 
 ### minikube 설치 
