@@ -1,8 +1,8 @@
 > 출처: https://subicura.com/k8s/guide/deployment.html#문제
 
-## 문제1
+## 문제1 : 
 
-> echo 서비스를 NodePort로 32000 포트로 오픈합니다.
+echo 서비스를 NodePort로 32000 포트로 오픈합니다.
 
 | 키                  | 값           |
 |---------------------|--------------|
