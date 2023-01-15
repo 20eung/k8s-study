@@ -1,0 +1,145 @@
+###
+# 아래는 SNMP 및 Blackbox exporter를 포함하는 Prometheus를 설치하고,
+# Grafana를 사용하여 수집한 메트릭을 표시하는 Kubernetes 코드 예제입니다.
+#
+# The code is a Kubernetes deployment manifest that creates a Prometheus deployment 
+# along with SNMP and Blackbox exporter and a Grafana service.
+#
+# The deployment creates a single replica of a pod running Prometheus, 
+# SNMP exporter, and Blackbox exporter. Prometheus is configured to use a configMap 
+# that is created separately to specify the scrape targets and other configurations. 
+# Prometheus also uses a data volume to store the metrics it collects.
+#
+# The service is used to expose Prometheus's web UI on port 9090.
+#
+# The configMap named "prometheus-config" contains the Prometheus configuration file 
+# "prometheus.yml" that specifies the scrape targets and other configurations such as 
+# the scrape interval, relabeling of metrics, and job name.
+#
+# The Prometheus configuration file "prometheus.yml" specifies two scrape configs, 
+# one for SNMP metrics and the other for Blackbox metrics. For the SNMP metrics, 
+# it specifies the job name as 'snmp', metrics path as '/snmp', and snmp module. 
+# It also does relabeling of metrics and sets the target for snmp exporter as 
+# 'snmp-exporter:9116'.
+#
+# Similarly, for Blackbox metrics, it specifies the job name as 'blackbox', metrics 
+# path as '/probe', and http_2xx module. It also does relabeling of metrics and sets 
+# the target for blackbox exporter as 'blackbox-exporter:9115'.
+#
+# This deployment allows Prometheus to scrape metrics from the SNMP and Blackbox exporters, 
+# and Grafana can then be used to display the metrics in a user-friendly way.
+#
+# 아래 코드는 SNMP 및 Blackbox 내보내기와 Grafana 서비스와 함께 Prometheus 배포를 생성하는 
+# Kubernetes 배포 매니페스트입니다.
+#
+# 배포는 Prometheus, SNMP 내보내기 및 Blackbox 내보내기를 실행하는 포드의 단일 복제본을 
+# 생성합니다. Prometheus는 스크랩 대상 및 기타 구성을 지정하기 위해 별도로 생성되는 
+# configMap을 사용하도록 구성됩니다. Prometheus는 또한 데이터 볼륨을 사용하여 수집한 지표를 
+# 저장합니다.
+#
+# 이 서비스는 포트 9090에서 Prometheus의 웹 UI를 노출하는 데 사용됩니다.
+#
+# "prometheus-config"라는 configMap에는 스크레이핑 대상 및 기타 구성(예: 스크레이핑 간격, 
+# 메트릭 레이블 재지정 및 작업 이름)을 지정하는 Prometheus 구성 파일 "prometheus.yml"이 
+# 포함되어 있습니다.
+#
+# Prometheus 구성 파일 "prometheus.yml"은 두 개의 스크랩 구성을 지정합니다. 
+# 하나는 SNMP 메트릭용이고 다른 하나는 블랙박스 메트릭용입니다. 
+# SNMP 메트릭의 경우 작업 이름을 'snmp'로, 메트릭 경로를 '/snmp'로, snmp 모듈을 지정합니다. 
+# 또한 메트릭의 레이블을 다시 지정하고 snmp 내보내기의 대상을 'snmp-exporter:9116'으로 
+# 설정합니다.
+#
+# 마찬가지로 블랙박스 메트릭의 경우 작업 이름을 '블랙박스'로, 메트릭 경로를 '/probe'로, 
+# http_2xx 모듈을 지정합니다. 또한 메트릭의 레이블을 다시 지정하고 블랙박스 내보내기 대상을 
+# 'blackbox-exporter:9115'로 설정합니다.
+#
+# 이 배포를 통해 Prometheus는 SNMP 및 Blackbox 내보내기에서 메트릭을 스크랩할 수 있으며 
+# Grafana를 사용하여 사용자에게 친숙한 방식으로 메트릭을 표시할 수 있습니다.
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus-deployment
+spec:
+  selector:
+    matchLabels:
+      app: prometheus
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: prometheus
+    spec:
+      containers:
+        - name: prometheus
+          image: prom/prometheus:v2.20.1
+          ports:
+            - containerPort: 9090
+          args:
+            - "--config.file=/etc/prometheus/prometheus.yml"
+            - "--storage.tsdb.path=/prometheus"
+          volumeMounts:
+            - name: config-volume
+              mountPath: /etc/prometheus
+            - name: data-volume
+              mountPath: /prometheus
+        - name: snmp-exporter
+          image: prom/snmp-exporter:v0.18.0
+          args:
+            - "-snmp.hosts=host1:161"
+        - name: blackbox-exporter
+          image: prom/blackbox-exporter:v0.18.0
+          args:
+            - "-probe.http.url=http://host1:80"
+      volumes:
+        - name: config-volume
+          configMap:
+            name: prometheus-config
+        - name: data-volume
+          emptyDir: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: prometheus-service
+spec:
+  selector:
+    app: prometheus
+  ports:
+    - name: web
+      protocol: TCP
+      port: 9090
+      targetPort: 9090
+  type: LoadBalancer
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-config
+data:
+  prometheus.yml: |-
+    global:
+      scrape_interval: 15s # set the scrape interval to 15 seconds
+    scrape_configs:
+    - job_name: 'snmp' # job name for snmp metrics
+        metrics_path: /snmp # metrics path for snmp exporter
+        params:
+            module: [snmp] # specify the snmp module
+        relabel_configs:
+        - source_labels: [__address__]
+          target_label: __param_target # relabel the source labels to target labels
+        - source_labels: [__param_target]
+          target_label: instance
+        - target_label: __address__
+          replacement: host1:9116 # replace the target label with the replacement
+        static_configs:
+        - targets: ['snmp-exporter:9116'] # set the target for snmp exporter
+    - job_name: 'blackbox' # job name for blackbox metrics
+        metrics_path: /probe # metrics path for blackbox exporter
+        params:
+            module: [http_2xx] # specify the http_2xx module
+        relabel_configs:
+        - source_labels: [__address__]

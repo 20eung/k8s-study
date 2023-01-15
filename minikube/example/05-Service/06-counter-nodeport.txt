@@ -1,0 +1,25 @@
+$ vi 05-counter-nodeport.yml
+
+
+$ kubectl apply -f 05-counter-nodeport.yml
+service/counter-np created
+
+
+$ kubectl get svc
+NAME         TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE
+kubernetes   ClusterIP   10.43.0.1      <none>        443/TCP          2d4h
+redis        ClusterIP   10.43.30.147   <none>        6379/TCP         27h
+counter-np   NodePort    10.43.95.3     <none>        3000:31000/TCP   9s
+
+
+
+$ curl 10.234.5.67:31000
+3
+
+
+$ curl 10.234.5.67:31000
+4
+
+
+$ curl 10.234.5.67:31000
+5

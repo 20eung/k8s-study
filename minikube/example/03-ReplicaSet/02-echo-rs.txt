@@ -1,0 +1,40 @@
+$ vi 01-echo-rs.yml
+
+
+$ kubectl apply -f 01-echo-rs.yml
+replicaset.apps/echo-rs created
+
+
+$ kubectl get po,rs
+NAME                READY   STATUS    RESTARTS   AGE
+pod/echo-rs-4669t   1/1     Running   0          12s
+
+NAME                      DESIRED   CURRENT   READY   AGE
+replicaset.apps/echo-rs   1         1         1       12s
+
+
+$ kubectl get pod --show-labels
+NAME            READY   STATUS    RESTARTS   AGE     LABELS
+echo-rs-4669t   1/1     Running   0          3m30s   app=echo,tier=app
+
+
+$ kubectl label pod/echo-rs-4669t app-
+pod/echo-rs-4669t unlabeled
+
+
+$ kubectl get pod --show-labels
+NAME            READY   STATUS    RESTARTS   AGE     LABELS
+echo-rs-4669t   1/1     Running   0          4m40s   tier=app
+echo-rs-f7dzd   1/1     Running   0          5s      app=echo,tier=app
+
+
+$ kubectl label pod/echo-rs-4669t app=echo
+pod/echo-rs-4669t labeled
+
+
+$ kubectl get pod --show-labels
+NAME            READY   STATUS    RESTARTS   AGE     LABELS
+echo-rs-4669t   1/1     Running   0          5m11s   app=echo,tier=app
+
+
+$ kubectl delete -f 01-echo-rs.yml

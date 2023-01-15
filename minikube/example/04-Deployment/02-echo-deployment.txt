@@ -1,0 +1,19 @@
+$ vi 01-echo-deployment.yml
+
+
+$ kubectl apply -f 01-echo-deployment.yml
+deployment.apps/echo-deploy created
+
+
+$ kubectl get po,rs,deploy
+NAME                               READY   STATUS    RESTARTS   AGE
+pod/echo-deploy-68b9dfd874-sjsrm   1/1     Running   0          8s
+pod/echo-deploy-68b9dfd874-dnr82   1/1     Running   0          8s
+pod/echo-deploy-68b9dfd874-rvs7l   1/1     Running   0          8s
+pod/echo-deploy-68b9dfd874-s2rzr   1/1     Running   0          8s
+
+NAME                                     DESIRED   CURRENT   READY   AGE
+replicaset.apps/echo-deploy-68b9dfd874   4         4         4       8s
+
+NAME                          READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/echo-deploy   4/4     4            4           9s
