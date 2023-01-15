@@ -1,32 +1,28 @@
 ## minikube
 
-## [ minikube 설치 ]
+### minikube 설치 
 
 > docker 사용시 설치 필요, docker를 사용하지 않는 경우 virtual box 설치
-
 ```
 curl -fsSL https://get.docker.com/ | sudo sh
 sudo usermod -aG docker $USER
 ```
 
 > docker 대신 virtual box 설치
-
 ```
 sudo apt-get install virtualbox
 ```
 
 > install minikube
-
 ```
 curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 && chmod +x minikube
 sudo mkdir -p /usr/local/bin/
 sudo install minikube /usr/local/bin/
 ```
 
-## [ minikube 기본 명령어 ]
+### minikube 기본 명령어
 
 > 버전확인
-
 ```
 minikube version
 ```
@@ -71,7 +67,7 @@ minikube ssh
 minikube ip
 ```
 
-## [ minikube 서비스 ] ###
+### minikube 서비스
 
 > 쿠버네티스 서비스 이름이 wordpress라면..
 ```
@@ -86,11 +82,11 @@ minikube service wordpress
 | default   | wordpress |          80 | http://192.168.49.2:31569 |
 |-----------|-----------|-------------|---------------------------|
 🏃  Starting tunnel for service wordpress.
-|-----------|-----------|-------------|------------------------|
-| NAMESPACE |   NAME    | TARGET PORT |          URL           |
-|-----------|-----------|-------------|------------------------|
-| default   | wordpress |             | http://127.0.0.1:57094 |
-|-----------|-----------|-------------|------------------------|
+|-----------|-----------|-------------|---------------------------|
+| NAMESPACE |   NAME    | TARGET PORT |          URL              |
+|-----------|-----------|-------------|---------------------------|
+| default   | wordpress |             | http://127.0.0.1:57094    |
+|-----------|-----------|-------------|---------------------------|
 🎉  Opening service default/wordpress in default browser...
 ❗  Because you are using a Docker driver on darwin, the terminal needs to be open to run it.
 ```
