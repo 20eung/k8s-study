@@ -34,7 +34,7 @@ pod/echo-rp created
 > $ kubectl get pod
 ```
 NAME      READY   STATUS    RESTARTS     AGE
-echo-rp   0/1     Running   0          8s
+echo-rp   0/1     Running   0            8s
 ```
 
 ## Pod 상태 확인
@@ -42,7 +42,7 @@ echo-rp   0/1     Running   0          8s
 > $ kubectl get pod/echo-rp
 ```
 NAME      READY   STATUS    RESTARTS     AGE
-echo-rp   0/1     Running   0          14s
+echo-rp   0/1     Running   0            14s
 ```
 
 ## Pod 제거

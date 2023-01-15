@@ -1,17 +1,46 @@
-# livenessProbe + readinessProbe YAML 파일 작성
-$ vi 8-echo-pod-health.yml
+## livenessProbe + readinessProbe YAML 파일 작성
 
-# Pod 생성
-$ kubectl apply -f 8-echo-pod-health.yml
+> $ vi 8-echo-pod-health.yml
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: echo-health
+  labels:
+    app: echo
+spec:
+  containers:
+    - name: app
+      image: ghcr.io/subicura/echo:v1
+      livenessProbe:
+        httpGet:
+          path: /
+          port: 3000
+      readinessProbe:
+        httpGet:
+          path: /
+          port: 3000
+```
+
+## Pod 생성
+
+> $ kubectl apply -f 8-echo-pod-health.yml
+```
 pod/echo-health created
+```
 
-# Pod 상태 확인
-$ kubectl get pod
+## Pod 상태 확인
+
+> $ kubectl get pod
+```
 NAME          READY   STATUS    RESTARTS   AGE
 echo-health   1/1     Running   0          7s
+```
 
-# 단일 Pod 상태 확인
-$ kubectl describe pod/echo-health
+## 단일 Pod 상태 확인
+
+> $ kubectl describe pod/echo-health
+```
 Name:             echo-health
 Namespace:        default
 Priority:         0
@@ -64,7 +93,11 @@ Events:
   Normal  Pulled     38s   kubelet            Container image "ghcr.io/subicura/echo:v1" already present on machine
   Normal  Created    38s   kubelet            Created container app
   Normal  Started    38s   kubelet            Started container app
+```
 
-# Pod 제거
-$ kubectl delete -f 8-echo-pod-health.yml
+## Pod 제거
+
+> $ kubectl delete -f 8-echo-pod-health.yml
+```
 pod "echo-health" deleted
+```
