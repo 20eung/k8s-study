@@ -1,14 +1,22 @@
-# Pod 생성
-$ kubectl run echo --image ghcr.io/subicura/echo:v1
-pod/echo created
+## 빠르게 Pod 만들기
 
-# Pod 목록 조회
-$ kubectl get pod
+> $ kubectl run echo --image ghcr.io/subicura/echo:v1
+```
+pod/echo created
+```
+
+## Pod 목록 조회
+
+> $ kubectl get pod
+```
 NAME   READY   STATUS    RESTARTS   AGE
 echo   1/1     Running   0          10s
+```
 
-# 단일 Pod 상세 확인
-$ kubectl describe pod/echo
+## 단일 Pod 상세 확인
+
+> $ kubectl describe pod/echo
+```
 Name:             echo
 Namespace:        default
 Priority:         0
@@ -60,8 +68,11 @@ Events:
   Normal  Pulled     19s   kubelet            Successfully pulled image "ghcr.io/subicura/echo:v1" in 8.22990468s
   Normal  Created    19s   kubelet            Created container echo
   Normal  Started    19s   kubelet            Started container echo
+```
 
-# Pod 제거
-$ kubectl delete pod/echo
+## Pod 제거
+
+> $ kubectl delete pod/echo
+```
 pod "echo" deleted
-
+```
