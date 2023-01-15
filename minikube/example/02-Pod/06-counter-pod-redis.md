@@ -1,22 +1,51 @@
-# 다중 컨테이너 YAML 파일 작성
-$ vi 10-counter-pod-redis.yml
+## 다중 컨테이너 YAML 파일 작성
 
-# Pod 생성
-$ kubectl apply -f 10-counter-pod-redis.yml
+> $ vi 06-counter-pod-redis.yml
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: counter
+  labels:
+    app: counter
+spec:
+  containers:
+    - name: app
+      image: ghcr.io/subicura/counter:latest
+      env:
+        - name: REDIS_HOST
+          value: "localhost"
+    - name: db
+      image: redis
+```
+
+## Pod 생성
+
+> $ kubectl apply -f 10-counter-pod-redis.yml
+```
 pod/counter created
+```
 
-# Pod 상태 확인
-$ kubectl get pod
+## Pod 상태 확인
+
+> $ kubectl get pod
+```
 NAME      READY   STATUS              RESTARTS   AGE
 counter   0/2     ContainerCreating   0          8s
+```
 
-# Pod 상태 확인
-$ kubectl get pod/counter
+## Pod 상태 확인
+
+> $ kubectl get pod/counter
+```
 NAME      READY   STATUS    RESTARTS   AGE
 counter   2/2     Running   0          20s
+```
 
-# 단일 Pod 상태 확인
-$ kubectl describe pod/counter
+## 단일 Pod 상태 확인
+
+> $ kubectl describe pod/counter
+```
 Name:             counter
 Namespace:        default
 Priority:         0
@@ -86,9 +115,12 @@ Events:
   Normal  Pulled     19s   kubelet            Successfully pulled image "redis" in 6.400923413s
   Normal  Created    19s   kubelet            Created container db
   Normal  Started    19s   kubelet            Started container db
+```
 
-# Pod 로그 확인
-$ kubectl logs counter
+## Pod 로그 확인
+
+> $ kubectl logs counter
+```
 Defaulted container "app" out of: app, db
 {"level":30,"time":1673192072216,"pid":7,"hostname":"counter","msg":"Server listening at http://0.0.0.0:3000"}
 Redis Client Error Error: connect ECONNREFUSED 127.0.0.1:6379
@@ -236,10 +268,12 @@ Redis Client Error Error: connect ECONNREFUSED 127.0.0.1:6379
   port: 6379
 }
 {"level":30,"time":1673192078519,"pid":7,"hostname":"counter","msg":"server listening on http://0.0.0.0:3000"}
+```
 
+## Pod 로그 확인
 
-# Pod 로그 확인
-$ kubectl logs counter app
+> $ kubectl logs counter app
+```
 {"level":30,"time":1673192072216,"pid":7,"hostname":"counter","msg":"Server listening at http://0.0.0.0:3000"}
 Redis Client Error Error: connect ECONNREFUSED 127.0.0.1:6379
     at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1157:16) {
@@ -386,10 +420,12 @@ Redis Client Error Error: connect ECONNREFUSED 127.0.0.1:6379
   port: 6379
 }
 {"level":30,"time":1673192078519,"pid":7,"hostname":"counter","msg":"server listening on http://0.0.0.0:3000"}
+```
 
+## Pod 로그 확인
 
-# Pod 로그 확인
-$ kubectl logs counter db
+> $ kubectl logs counter db
+```
 1:C 08 Jan 2023 15:34:38.134 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
 1:C 08 Jan 2023 15:34:38.134 # Redis version=7.0.7, bits=64, commit=00000000, modified=0, pid=1, just started
 1:C 08 Jan 2023 15:34:38.134 # Warning: no config file specified, using the default config. In order to specify a config file use redis-server /path/to/redis.conf
@@ -397,10 +433,12 @@ $ kubectl logs counter db
 1:M 08 Jan 2023 15:34:38.138 * Running mode=standalone, port=6379.
 1:M 08 Jan 2023 15:34:38.138 # Server initialized
 1:M 08 Jan 2023 15:34:38.139 * Ready to accept connections
+```
 
+## Pod의 app 컨테이너 접속
 
-# Pod의 app 컨테이너 접속
-$ kubectl exec -it counter -c app -- sh
+> $ kubectl exec -it counter -c app -- sh
+```
 /app # curl localhost:3000
 1
 
@@ -426,7 +464,11 @@ Connection closed by foreign host
 /app # exit
 command terminated with exit code 1
 $
+```
 
-# Pod 제거
-$ kubectl delete -f 10-counter-pod-redis.yml
+## Pod 제거
+
+> $ kubectl delete -f 10-counter-pod-redis.yml
+```
 pod "counter" deleted
+```

@@ -1,6 +1,6 @@
 ## livenessProbe + readinessProbe YAML 파일 작성
 
-> $ vi 8-echo-pod-health.yml
+> $ vi 05-echo-pod-health.yml
 ```
 apiVersion: v1
 kind: Pod
