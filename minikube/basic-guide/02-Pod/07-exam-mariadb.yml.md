@@ -1,4 +1,6 @@
-## 실습 1
+> 출처: https://subicura.com/k8s/guide/pod.html#실습
+
+## 실습 2
 
 > 다음 조건을 만족하는 Pod을 만드세요.
 
@@ -9,6 +11,7 @@
 | Container 이름     | mariadb                     |
 | Container 이미지   | mariadb:10.7                |
 | Container 환경변수 | MYSQL_ROOT_PASSWORD: 123456 |
+
 ```
 apiVersion: v1
 kind: Pod

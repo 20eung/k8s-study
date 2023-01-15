@@ -1,3 +1,5 @@
+> 출처: https://subicura.com/k8s/guide/pod.html#yaml로-설정파일spec-작성하기
+
 ## echo pod YAML 파일 작성
 
 > $ vi 02-echo-pod.yml
@@ -16,7 +18,7 @@ spec:
 
 ### Pod 생성
 
-> $ kubectl apply -f echo-pod.yml
+> $ kubectl apply -f 02-echo-pod.yml
 ```
 pod/echo created
 ```
@@ -65,7 +67,7 @@ PID   USER     TIME  COMMAND
 
 ## Pod 제거
 
-> $ kubectl delete -f echo-pod.yml
+> $ kubectl delete -f 02-echo-pod.yml
 ```
 pod "echo" deleted
 ```

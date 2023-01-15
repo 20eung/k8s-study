@@ -1,3 +1,5 @@
+> 출처: https://subicura.com/k8s/guide/pod.html#컨테이너-상태-모니터링
+
 ## libenessProbe YAML 파일 작성
 
 > $ vi 03-echo-lp.yml
@@ -24,7 +26,7 @@ spec:
 
 ## Pod 생성
 
-> $ kubectl apply -f 4-echo-lp.yml
+> $ kubectl apply -f 03-echo-lp.yml
 ```
 pod/echo-lp created
 ```
@@ -55,7 +57,7 @@ echo-lp   0/1     CrashLoopBackOff   3 (7s ago)   47s
 
 ## Pod 제거
 
-> $ kubectl delete -f 4-echo-lp.yml
+> $ kubectl delete -f 03-echo-lp.yml
 ```
 pod "echo-lp" deleted
 ```

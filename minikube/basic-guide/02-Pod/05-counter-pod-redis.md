@@ -1,6 +1,8 @@
+> 출처: https://subicura.com/k8s/guide/pod.html#다중-컨테이너
+
 ## 다중 컨테이너 YAML 파일 작성
 
-> $ vi 06-counter-pod-redis.yml
+> $ vi 05-counter-pod-redis.yml
 ```
 apiVersion: v1
 kind: Pod
@@ -21,7 +23,7 @@ spec:
 
 ## Pod 생성
 
-> $ kubectl apply -f 10-counter-pod-redis.yml
+> $ kubectl apply -f 05-counter-pod-redis.yml
 ```
 pod/counter created
 ```
@@ -468,7 +470,7 @@ $
 
 ## Pod 제거
 
-> $ kubectl delete -f 10-counter-pod-redis.yml
+> $ kubectl delete -f 05-counter-pod-redis.yml
 ```
 pod "counter" deleted
 ```

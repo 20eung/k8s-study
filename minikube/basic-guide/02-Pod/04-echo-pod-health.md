@@ -1,6 +1,8 @@
+> 출처: https://subicura.com/k8s/guide/pod.html#컨테이너-상태-모니터링
+
 ## livenessProbe + readinessProbe YAML 파일 작성
 
-> $ vi 05-echo-pod-health.yml
+> $ vi 04-echo-pod-health.yml
 ```
 apiVersion: v1
 kind: Pod
@@ -24,7 +26,7 @@ spec:
 
 ## Pod 생성
 
-> $ kubectl apply -f 8-echo-pod-health.yml
+> $ kubectl apply -f 04-echo-pod-health.yml
 ```
 pod/echo-health created
 ```
@@ -97,7 +99,7 @@ Events:
 
 ## Pod 제거
 
-> $ kubectl delete -f 8-echo-pod-health.yml
+> $ kubectl delete -f 04-echo-pod-health.yml
 ```
 pod "echo-health" deleted
 ```

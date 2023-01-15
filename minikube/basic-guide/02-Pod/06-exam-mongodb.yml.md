@@ -1,3 +1,5 @@
+> 출처: https://subicura.com/k8s/guide/pod.html#실습
+
 ## 실습 1
 
 > 다음 조건을 만족하는 Pod을 만드세요.

@@ -1,4 +1,4 @@
-> https://subicura.com/k8s/guide/replicaset.html#스케일-아웃
+> 출처: https://subicura.com/k8s/guide/replicaset.html#스케일-아웃
 
 ## 문제
 

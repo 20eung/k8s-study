@@ -1,3 +1,5 @@
+> 출처: https://subicura.com/k8s/guide/pod.html#빠르게-pod-만들기
+
 ## 빠르게 Pod 만들기
 
 > $ kubectl run echo --image ghcr.io/subicura/echo:v1
