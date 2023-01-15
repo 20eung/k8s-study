@@ -1,11 +1,51 @@
-$ vi 06-echo-strategy.yml
- 
- 
-$ kubectl apply -f 06-echo-strategy.yml
-deployment.apps/echo-deploy-st created
- 
+> 출처: https://subicura.com/k8s/guide/deployment.html#배포-전략-설정
 
-$ kubectl get po,rs,deploy
+## 롤링업데이트RollingUpdate 방식을 사용할 때 동시에 업데이트하는 Pod의 개수를 변경
+
+> $ vi 04-echo-strategy.yml
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: echo-deploy-st
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: echo
+      tier: app
+  minReadySeconds: 5
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 3
+      maxUnavailable: 3
+  template:
+    metadata:
+      labels:
+        app: echo
+        tier: app
+    spec:
+      containers:
+        - name: echo
+          image: ghcr.io/subicura/echo:v1
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 3000
+```
+
+## Deployment를 생성
+
+> $ kubectl apply -f 04-echo-strategy.yml
+```
+deployment.apps/echo-deploy-st created
+```
+
+## 리소스 확인
+
+> $ kubectl get po,rs,deploy
+```
 NAME                                 READY   STATUS    RESTARTS   AGE
 pod/echo-deploy-58cfb87569-8cfbh     1/1     Running   0          13m
 pod/echo-deploy-58cfb87569-lfswz     1/1     Running   0          13m
@@ -24,13 +64,19 @@ replicaset.apps/echo-deploy-st-5694b4995   4         4         4       11s
 NAME                             READY   UP-TO-DATE   AVAILABLE   AGE
 deployment.apps/echo-deploy      4/4     4            4           26m
 deployment.apps/echo-deploy-st   4/4     4            4           11s
- 
+```
 
-$ kubectl set image deployment.apps/echo-deploy-st echo=ghcr.io/subicura/echo:v2
+# 이미지 변경 (명령어로)
+
+> $ kubectl set image deployment.apps/echo-deploy-st echo=ghcr.io/subicura/echo:v2
+```
 deployment.apps/echo-deploy-st image updated
+```
 
+# 이벤트 확인
 
-$ kubectl describe deploy/echo-deploy-st
+> $ kubectl describe deploy/echo-deploy-st
+```
 Name:                   echo-deploy-st
 Namespace:              default
 CreationTimestamp:      Mon, 09 Jan 2023 16:20:11 +0900
@@ -68,9 +114,12 @@ Events:
   Normal  ScalingReplicaSet  11s   deployment-controller  Scaled down replica set echo-deploy-st-5694b4995 to 1 from 4
   Normal  ScalingReplicaSet  11s   deployment-controller  Scaled up replica set echo-deploy-st-5c7d4b8c4 to 4 from 3
   Normal  ScalingReplicaSet  3s    deployment-controller  Scaled down replica set echo-deploy-st-5694b4995 to 0 from 1
+```
 
+## 리소스 확인
 
-$ kubectl get po,rs,deploy
+> $ kubectl get po,rs,deploy
+```
 NAME                                 READY   STATUS    RESTARTS   AGE
 pod/echo-deploy-58cfb87569-8cfbh     1/1     Running   0          14m
 pod/echo-deploy-58cfb87569-lfswz     1/1     Running   0          14m
@@ -90,5 +139,4 @@ replicaset.apps/echo-deploy-st-5694b4995   0         0         0       100s
 NAME                             READY   UP-TO-DATE   AVAILABLE   AGE
 deployment.apps/echo-deploy      4/4     4            4           27m
 deployment.apps/echo-deploy-st   4/4     4            4           100s
-
-
+```
