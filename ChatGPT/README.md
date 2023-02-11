@@ -1,7 +1,8 @@
 ## ChatGPT에게 Kubernetes를 배우다.
 
-> AWS에서 Kubernetes와 InfluxDB를 사용하여 Grafana를 배포하고 Prometheus도 포함된 대시보드를 구성하는 방법을 알려줘
 
+### AWS에서 Kubernetes와 InfluxDB를 사용하여 Grafana를 배포하고 Prometheus도 포함된 대시보드를 구성하는 방법을 알려줘
+---
 
 1. AWS 환경 구축: AWS 계정을 만들고, 필요한 서비스(EC2, VPC, IAM 등)를 설정합니다.
 
@@ -17,8 +18,8 @@
 
 7. Grafana와 InfluxDB 연동: Grafana와 InfluxDB를 연동하여 데이터를 시각화합니다.
 
+### InfluxDB를 설치할 때 필요한 설정
 ---
-> InfluxDB를 설치할 때 필요한 설정
 
 1. Persistent Volume(PV)와 Persistent Volume Claim(PVC) 설정: InfluxDB의 데이터를 영구적으로 저장하기 위해서는 PV와 PVC를 설정해야 합니다.
 
@@ -40,9 +41,8 @@ Kubernetes의 YAML 파일을 통해 위의 설정을 적용할 수 있습니다.
 
 - Service: InfluxDB 서비스의 타입,
 
+### InfluxDB를 Kubernetes에서 설치하는 과정에 대한 참고용 문서 또는 블로그 게시물을 추천해줘
 ---
-> InfluxDB를 Kubernetes에서 설치하는 과정에 대한 참고용 문서 또는 블로그 게시물을 추천해줘
-
 
 1. InfluxData's official documentation: 
 - https://docs.influxdata.com/kubernetes/v1.5/
@@ -70,9 +70,9 @@ Kubernetes의 YAML 파일을 통해 위의 설정을 적용할 수 있습니다.
 
 3. Service: Kubernetes에서 어플리케이션의 네트워크 접근을 관리하기 위한 객체입니다. Service 객체는 Pod의 로드 밸런싱, 외부에서 어플리케이션에 접근할 수 있는 IP 주소, 포트 번호 등을 관리합니다.
 
----
-> ConfigMap에 대해서 코드 예제를 포함해서 설명해줘
 
+### ConfigMap에 대해서 코드 예제를 포함해서 설명해줘
+---
 
 ConfigMap은 Kubernetes 리소스로, 응용 프로그램 코드와 구성 데이터를 분리할 수 있습니다. 즉, 환경 변수, 명령행 인수, 기타 구성 파일 등의 구성 데이터를 ConfigMap에 저장하고 Deployment 또는 기타 Kubernetes 리소스에서 참조할 수 있습니다.
 
@@ -102,8 +102,8 @@ ConfigMap이 정상적으로 만들어졌는지 확인하려면 아래 명령을
 kubectl get configmap example-configmap
 ```
 
+### 위 ConfigMap을 사용하는 Deployment 코드와 설명을 원해
 ---
-> 위 ConfigMap을 사용하는 Deployment 코드와 설명을 원해
 
 ```
 apiVersion: apps/v1 # API 버전
