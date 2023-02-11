@@ -17,7 +17,7 @@
 
 7. Grafana와 InfluxDB 연동: Grafana와 InfluxDB를 연동하여 데이터를 시각화합니다.
 
-
+---
 > InfluxDB를 설치할 때 필요한 설정
 
 1. Persistent Volume(PV)와 Persistent Volume Claim(PVC) 설정: InfluxDB의 데이터를 영구적으로 저장하기 위해서는 PV와 PVC를 설정해야 합니다.
@@ -40,7 +40,7 @@ Kubernetes의 YAML 파일을 통해 위의 설정을 적용할 수 있습니다.
 
 - Service: InfluxDB 서비스의 타입,
 
-
+---
 > InfluxDB를 Kubernetes에서 설치하는 과정에 대한 참고용 문서 또는 블로그 게시물을 추천해줘
 
 
@@ -60,7 +60,7 @@ Kubernetes의 YAML 파일을 통해 위의 설정을 적용할 수 있습니다.
 - https://github.com/search?q=influxdb+kubernetes&type=Repositories
 - GitHub에서 InfluxDB를 Kubernetes에서 설치하는 과정에 대한 샘플 코드를 확인할 수 있습니다. 샘플 코드를 활용하여 InfluxDB를 설치하는 과정을 스스로 경험해볼 수 있습니다.
 
-
+---
 > ConfigMap, Deployment, Service는 Kubernetes에서 사용하는 중요한 개념입니다
 
 
@@ -70,7 +70,7 @@ Kubernetes의 YAML 파일을 통해 위의 설정을 적용할 수 있습니다.
 
 3. Service: Kubernetes에서 어플리케이션의 네트워크 접근을 관리하기 위한 객체입니다. Service 객체는 Pod의 로드 밸런싱, 외부에서 어플리케이션에 접근할 수 있는 IP 주소, 포트 번호 등을 관리합니다.
 
-
+---
 > ConfigMap에 대해서 코드 예제를 포함해서 설명해줘
 
 
@@ -102,6 +102,7 @@ ConfigMap이 정상적으로 만들어졌는지 확인하려면 아래 명령을
 kubectl get configmap example-configmap
 ```
 
+---
 > 위 ConfigMap을 사용하는 Deployment 코드와 설명을 원해
 
 ```
