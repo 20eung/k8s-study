@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: influxdb
+spec:
+  serviceName: influxdb
+  replicas: 1
+  selector:
+    matchLabels:
+      app: influxdb
+  template:
+    metadata:
+      labels:
+        app: influxdb
+    spec:
+      containers:
+      - name: influxdb
+        image: influxdb:2.0
+        ports:
+        - containerPort: 8086
+        volumeMounts:
+        - name: influxdb-data
+          mountPath: /var/lib/influxdb
+        env:
+        - name: INFLUXDB_DB
+          value: "telegraf"
+        - name: INFLUXDB_HTTP_AUTH_ENABLED
+          value: "true"
+        - name: INFLUXDB_ADMIN_USER
+          value: "admin"
+        - name: INFLUXDB_ADMIN_PASSWORD
+          value: "secretpassword"
+      volumes:
+      - name: influxdb-data
+        persistentVolumeClaim:
+          claimName: influxdb-pvc
