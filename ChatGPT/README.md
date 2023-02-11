@@ -1,6 +1,6 @@
 ## ChatGPT에게 Kubernetes를 배우다.
 
-<div style="background-color: #F0F0F0; padding: 10px;">
+<div style="background-color: #FFFFFF; padding: 10px;">
   <p>AWS에서 Kubernetes와 InfluxDB를 사용하여 Grafana를 배포하고 Prometheus도 포함된 대시보드를 구성하는 방법을 알려줘</p>
 </div>
 
