@@ -1,7 +1,8 @@
 ## ChatGPT에게 Kubernetes를 배우다.
 
-
-### AWS에서 Kubernetes와 InfluxDB를 사용하여 Grafana를 배포하고 Prometheus도 포함된 대시보드를 구성하는 방법을 알려줘
+<div style="background-color: #F0F0F0; padding: 10px;">
+  <p>### AWS에서 Kubernetes와 InfluxDB를 사용하여 Grafana를 배포하고 Prometheus도 포함된 대시보드를 구성하는 방법을 알려줘</p>
+</div>
 
 1. AWS 환경 구축: AWS 계정을 만들고, 필요한 서비스(EC2, VPC, IAM 등)를 설정합니다.
 
