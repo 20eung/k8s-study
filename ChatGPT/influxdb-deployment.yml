@@ -26,3 +26,4 @@ spec:
           value: "telegraf"
         - name: INFLUXDB_USER_PASSWORD
           value: "password"
+
