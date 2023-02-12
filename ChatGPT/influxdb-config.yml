@@ -1,0 +1,86 @@
+###
+# To apply this YAML file to the cluster, run the following command:
+#
+# kubectl apply -f influxdb-config.yaml
+#
+# With this configuration in place, 
+# you should now have a running instance of InfluxDB on your Kubernetes cluster 
+# that you can access using the 
+# http://influxdb-service.default.svc.cluster.local:8086 URL. 
+# The storage capacity for InfluxDB will automatically increase as needed.
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: influxdb-service
+  labels:
+    app: influxdb
+spec:
+  selector:
+    app: influxdb
+  ports:
+  - name: influxdb
+    port: 8086
+    targetPort: 8086
+  type: ClusterIP
+     
+# type: NodePort
+#
+# type: LoadBalancer
+# loadBalancerIP: 10.234.5.67
+
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: influxdb-storage-standard
+  labels:
+    app: influxdb
+provisioner: kubernetes.io/aws-ebs
+parameters:
+  type: gp2
+
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: influxdb-statefulset
+  labels:
+    app: influxdb
+spec:
+  serviceName: influxdb-service
+  replicas: 1
+  selector:
+    matchLabels:
+      app: influxdb
+  template:
+    metadata:
+      labels:
+        app: influxdb
+    spec:
+      containers:
+      - name: influxdb
+        image: influxdb:latest
+        ports:
+        - containerPort: 8086
+        env:
+        - name: INFLUXDB_DB
+          value: "telegraf"
+        - name: INFLUXDB_USER
+          value: "telegraf"
+        - name: INFLUXDB_USER_PASSWORD
+          value: "password"
+        volumeMounts:
+        - name: influxdb-data
+          mountPath: /var/lib/influxdb
+  volumeClaimTemplates:
+  - metadata:
+      name: influxdb-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: influxdb-storage-standard
+      resources:
+        requests:
+          storage: 5Gi
+
