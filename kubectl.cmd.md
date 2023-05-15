@@ -2,6 +2,12 @@
 
 ## kubectl 명령어
 
+### addon : 애드온 설치 및 상태정보를 확인합니다.
+> kubectl addons list
+```
+kubectl addons list
+```
+
 ### apply : 원하는 상태를 적용합니다. 보통 -f 옵션으로 파일과 함께 사용합니다.
 
 > kubectl apply -f [파일명 또는 URL]
